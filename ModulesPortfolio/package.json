@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Software Testing & Development - Educational Modules</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        nav {
+            background: #f8f9fa;
+            padding: 20px;
+            border-bottom: 3px solid #667eea;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .nav-btn {
+            padding: 12px 25px;
+            background: white;
+            border: 2px solid #667eea;
+            color: #667eea;
+            cursor: pointer;
+            border-radius: 25px;
+            font-size: 1em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .nav-btn.active {
+            background: #667eea;
+            color: white;
+        }
+
+        main {
+            padding: 40px 30px;
+            min-height: 500px;
+        }
+
+        .module {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .module.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .module h2 {
+            color: #667eea;
+            font-size: 2em;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .topic {
+            background: #f8f9fa;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            border-left: 5px solid #667eea;
+            transition: all 0.3s ease;
+        }
+
+        .topic:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .topic h3 {
+            color: #333;
+            font-size: 1.3em;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+        }
+
+        .topic-number {
+            background: #667eea;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            font-size: 0.9em;
+            font-weight: bold;
+        }
+
+        .topic p {
+            color: #555;
+            font-size: 1.05em;
+            line-height: 1.8;
+            margin-left: 42px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 50px;
+            font-size: 1.2em;
+            color: #667eea;
+        }
+
+        .error {
+            background: #ffe6e6;
+            color: #c00;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 5px solid #c00;
+            margin: 20px 0;
+        }
+
+        footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8em;
+            }
+
+            .nav-btn {
+                padding: 10px 15px;
+                font-size: 0.9em;
+            }
+
+            .module h2 {
+                font-size: 1.5em;
+            }
+
+            .topic h3 {
+                font-size: 1.1em;
+            }
+
+            .topic p {
+                margin-left: 0;
+                margin-top: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Software Testing & Development</h1>
+            <p>Comprehensive Educational Modules</p>
+        </header>
+
+        <nav id="navigation">
+            <button class="nav-btn active" onclick="showModule(1)">Module 1</button>
+            <button class="nav-btn" onclick="showModule(2)">Module 2</button>
+            <button class="nav-btn" onclick="showModule(3)">Module 3</button>
+            <button class="nav-btn" onclick="showModule(4)">Module 4</button>
+            <button class="nav-btn" onclick="showModule(5)">Module 5</button>
+        </nav>
+
+        <main id="content">
+            <div class="loading">Loading modules...</div>
+        </main>
+
+        <footer>
+            <p>&copy; 2024 Educational Resources - Software Testing & Development</p>
+        </footer>
+    </div>
+
+    <script>
+        let modulesData = [];
+        let currentModule = 1;
+
+        // Fetch modules from API
+        async function loadModules() {
+            try {
+                const response = await fetch('http://localhost:3000/api/modules');
+                if (!response.ok) {
+                    throw new Error('Failed to fetch modules');
+                }
+                modulesData = await response.json();
+                renderModule(1);
+            } catch (error) {
+                document.getElementById('content').innerHTML = `
+                    <div class="error">
+                        <strong>Error loading modules:</strong> ${error.message}
+                        <p style="margin-top: 10px;">Please ensure MongoDB is running and the server is started.</p>
+                    </div>
+                `;
+            }
+        }
+
+        function renderModule(moduleNumber) {
+            const module = modulesData.find(m => m.moduleNumber === moduleNumber);
+            if (!module) {
+                document.getElementById('content').innerHTML = '<div class="loading">Module not found</div>';
+                return;
+            }
+
+            const topicsHTML = module.topics.map(topic => `
+                <div class="topic">
+                    <h3>
+                        <span class="topic-number">${topic.number}</span>
+                        ${topic.title}
+                    </h3>
+                    <p>${topic.description}</p>
+                </div>
+            `).join('');
+
+            document.getElementById('content').innerHTML = `
+                <div class="module active">
+                    <h2>${module.title}</h2>
+                    ${topicsHTML}
+                </div>
+            `;
+        }
+
+        function showModule(moduleNumber) {
+            currentModule = moduleNumber;
+            
+            // Update navigation buttons
+            const buttons = document.querySelectorAll('.nav-btn');
+            buttons.forEach((btn, index) => {
+                btn.classList.toggle('active', index + 1 === moduleNumber);
+            });
+
+            // Render the selected module
+            renderModule(moduleNumber);
+        }
+
+        // Load modules when page loads
+        window.addEventListener('DOMContentLoaded', loadModules);
+    </script>
+</body>
+</html>
